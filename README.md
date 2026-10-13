@@ -37,6 +37,8 @@ Across people:
 
 Without a placebo comparison, you would read that +48 bpm as a meal response. Glucose, scored the same way, separates meals from placebo moments, so the test can detect a real effect.
 
+These results rule out a large heart rate response to meals in this data. A smaller one could still hide below the detection limits listed under Limitations.
+
 ## Movement check
 
 The wristband also records motion, so I repeated the test in two ways that take movement out of the picture. I wrote both down in [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md) before running them.
@@ -104,11 +106,15 @@ I wrote the analysis rules down before looking at any heart rate result. They ar
 
 ## Limitations
 
+- **One dataset, built for another question.** The BIG IDEAs study collected these recordings to estimate glucose from wearables, so the meals were free-living and uncontrolled. The participants, adults aged 35 to 65 with HbA1c in the high-normal to prediabetic range, don't represent everyone. I haven't repeated this test on a second dataset yet.
+- **Detection limits.**
+  - The test has 15 people with a median of 11 clean meals each (range 4 to 17).
+  - At 80% power, it can reliably detect average differences of about 13 mg/dL for glucose, 7 bpm for heart rate peak, 4 bpm for heart rate average and 5 bpm for the movement-removed average.
+  - Glucose cleared its limit by a wide margin. A heart rate effect from digestion of a few beats per minute would fall below these limits, so measuring one takes a bigger or controlled study.
 - **Wrist sensor.** The E4 measures heart rate optically at the wrist, and the signal gets noisy during movement.
 - **Approximate movement control.** A linear model of wrist motion leaves in other things that change heart rate, like posture, stress or caffeine. It also misses movement that doesn't involve the wrist.
 - **Self-reported food logs.** An unlogged snack would make a placebo moment look more like a meal. Snacks like that would blur the glucose result too, and glucose still separates meals from placebo moments, so the logs hold up well enough for this test.
 - **Sleep around placebo moments.** 18% of placebo moments started while the person lay still, probably asleep, against 8% of meals. Leaving those moments out gives 48% for heart rate peak and 44% for heart rate average.
-- **Small sample.** 15 people, about a week each.
 - **No repeatability measure.** I couldn't use the dataset's repeated standard breakfast for this, because 3 of them passed the clean-window rule, from 2 people.
 - **Not medical advice.** This is an analysis of a public research dataset for general wellness interest. It makes no claim about any specific product.
 

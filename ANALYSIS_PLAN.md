@@ -79,4 +79,7 @@ A participant needs at least 3 clean meals with valid heart rate and glucose win
   - 10 random draws of placebo moments
   - lunch and dinner (11:00 to 21:00)
   - leaving out moments that started while the person lay still (movement below 0.01 g for 80% of the baseline)
+- **Detection limits:**
+  - These came after the main results, to show what the sample can and can't detect.
+  - Each one is the smallest average difference a paired t-test would detect at 80% power and alpha 0.05, given the spread of per-person differences.
 - **Dropped question:** I had planned to ask how many repeats of the same meal a stable personal response needs. I dropped it because 3 standard breakfasts passed the clean-window rule, too few to work with.

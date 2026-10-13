@@ -10,7 +10,7 @@ from load import PARTICIPANTS
 from meals import CLEAN_AFTER_MIN, CLEAN_BEFORE_MIN, MEAL_GAP_MIN, PLACEBO_CLOCK_WINDOW_MIN, PLACEBOS_PER_MEAL
 from movement import FIT_MIN_SINCE_FOOD, MIN_STILL_PARTICIPANTS, STILL_SHARE, STILL_THRESHOLD
 from response import POST_MIN, PRE_MIN, SUSTAINED_FROM_MIN, SUSTAINED_TO_MIN
-from stats import per_participant, summarize
+from stats import detectable_difference, per_participant, summarize
 
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS = ROOT / "results"
@@ -86,6 +86,11 @@ def build_metrics(table):
             },
             "awake_baselines": {key: summarize(per_participant(awake, column)) for key, column in METRICS.items()},
         },
+        "meals_per_person": meals.groupby("pid").size().describe()[["min", "50%", "max"]].to_dict(),
+        "detectable_difference": {
+            **{key: detectable_difference(p) for key, p in per.items()},
+            "adj_hr_sustained": detectable_difference(per_movement["adj_hr_sustained"]),
+        },
         "standard_breakfasts_clean": int(len(standard)),
         "standard_breakfast_participants": int(standard["pid"].nunique()),
         "movement": {
@@ -126,6 +131,9 @@ def display_values(m):
         "smooth_auc": pct(explore["hr_peak_smoothed"]["median_auc"]),
         "big_cut": f"{explore['big_meal_kcal_cutoff']:.0f}",
         "big_participants": explore["big_meals"]["glucose"]["participants"],
+        "meals_per_person_median": f"{m['meals_per_person']['50%']:.0f}",
+        "meals_per_person_min": f"{m['meals_per_person']['min']:.0f}",
+        "meals_per_person_max": f"{m['meals_per_person']['max']:.0f}",
         "sb_count": m["standard_breakfasts_clean"],
         "sb_participants": m["standard_breakfast_participants"],
         "day_from": explore["daytime_hours"][0],
@@ -145,6 +153,8 @@ def display_values(m):
         "sustained_from": SUSTAINED_FROM_MIN,
         "sustained_to": SUSTAINED_TO_MIN,
     }
+    for key, value in m["detectable_difference"].items():
+        values[f"mde_{key}"] = f"{value:.0f}"
     for key, s in explore["daytime"].items():
         values[f"day_{key}_auc"] = pct(s["median_auc"])
     seeds = explore["seed_range"]

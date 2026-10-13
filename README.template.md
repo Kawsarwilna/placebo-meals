@@ -37,6 +37,8 @@ Across people:
 
 Without a placebo comparison, you would read that {{hr_peak_meal}} bpm as a meal response. Glucose, scored the same way, separates meals from placebo moments, so the test can detect a real effect.
 
+These results rule out a large heart rate response to meals in this data. A smaller one could still hide below the detection limits listed under Limitations.
+
 ## Movement check
 
 The wristband also records motion, so I repeated the test in two ways that take movement out of the picture. I wrote both down in [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md) before running them.
@@ -104,11 +106,15 @@ I wrote the analysis rules down before looking at any heart rate result. They ar
 
 ## Limitations
 
+- **One dataset, built for another question.** The BIG IDEAs study collected these recordings to estimate glucose from wearables, so the meals were free-living and uncontrolled. The participants, adults aged 35 to 65 with HbA1c in the high-normal to prediabetic range, don't represent everyone. I haven't repeated this test on a second dataset yet.
+- **Detection limits.**
+  - The test has {{participants}} people with a median of {{meals_per_person_median}} clean meals each (range {{meals_per_person_min}} to {{meals_per_person_max}}).
+  - At 80% power, it can reliably detect average differences of about {{mde_glucose}} mg/dL for glucose, {{mde_hr_peak}} bpm for heart rate peak, {{mde_hr_sustained}} bpm for heart rate average and {{mde_adj_hr_sustained}} bpm for the movement-removed average.
+  - Glucose cleared its limit by a wide margin. A heart rate effect from digestion of a few beats per minute would fall below these limits, so measuring one takes a bigger or controlled study.
 - **Wrist sensor.** The E4 measures heart rate optically at the wrist, and the signal gets noisy during movement.
 - **Approximate movement control.** A linear model of wrist motion leaves in other things that change heart rate, like posture, stress or caffeine. It also misses movement that doesn't involve the wrist.
 - **Self-reported food logs.** An unlogged snack would make a placebo moment look more like a meal. Snacks like that would blur the glucose result too, and glucose still separates meals from placebo moments, so the logs hold up well enough for this test.
 - **Sleep around placebo moments.** {{rest_placebo_share}} of placebo moments started while the person lay still, probably asleep, against {{rest_meal_share}} of meals. Leaving those moments out gives {{awake_hr_peak_auc}} for heart rate peak and {{awake_hr_sustained_auc}} for heart rate average.
-- **Small sample.** {{participants}} people, about a week each.
 - **No repeatability measure.** I couldn't use the dataset's repeated standard breakfast for this, because {{sb_count}} of them passed the clean-window rule, from {{sb_participants}} people.
 - **Not medical advice.** This is an analysis of a public research dataset for general wellness interest. It makes no claim about any specific product.
 

@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
-from stats import auc, per_participant
+from stats import auc, detectable_difference, per_participant
 
 
 def test_auc_extremes():
@@ -22,3 +22,11 @@ def test_per_participant_difference():
     per = per_participant(table, "score")
     assert per.loc[0, "difference"] == 11.0 - 2.0
     assert per.loc[0, "auc"] == 1.0
+
+
+def test_detectable_difference_grows_with_spread_and_shrinks_with_people():
+    tight = pd.DataFrame({"difference": [1.0, -1.0] * 8})
+    loose = pd.DataFrame({"difference": [4.0, -4.0] * 8})
+    bigger = pd.DataFrame({"difference": [1.0, -1.0] * 32})
+    assert detectable_difference(loose) > detectable_difference(tight)
+    assert detectable_difference(bigger) < detectable_difference(tight)

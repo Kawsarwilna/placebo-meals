@@ -1,5 +1,6 @@
+import numpy as np
 import pandas as pd
-from scipy.stats import mannwhitneyu, wilcoxon
+from scipy.stats import mannwhitneyu, t, wilcoxon
 
 
 def auc(meal_values, placebo_values):
@@ -27,6 +28,13 @@ def per_participant(table, metric, meal_filter=None):
             "auc": auc(meal_values, placebo_values),
         })
     return pd.DataFrame(rows)
+
+
+def detectable_difference(per, power=0.8, alpha=0.05):
+    # smallest average difference a paired t-test would detect at this spread and sample size
+    n = len(per)
+    sd = per["difference"].std(ddof=1)
+    return float((t.ppf(1 - alpha / 2, n - 1) + t.ppf(power, n - 1)) * sd / np.sqrt(n))
 
 
 def summarize(per):

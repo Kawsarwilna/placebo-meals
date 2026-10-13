@@ -240,6 +240,17 @@
       ]
     }
   },
+  "meals_per_person": {
+    "min": 4.0,
+    "50%": 11.0,
+    "max": 17.0
+  },
+  "detectable_difference": {
+    "glucose": 12.542879953931592,
+    "hr_peak": 6.993323958961245,
+    "hr_sustained": 3.727673887125072,
+    "adj_hr_sustained": 5.122434428201296
+  },
   "standard_breakfasts_clean": 3,
   "standard_breakfast_participants": 2,
   "movement": {
