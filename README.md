@@ -33,13 +33,40 @@ Across people:
 - **Heart rate peak** is higher after real meals for 5 of 15 (p = 0.12).
 - **Heart rate average** is higher after real meals for 7 of 15 (p = 0.89).
 
-**What it means.** In everyday wrist data, the heart rate peak after a meal is about +48 bpm, which looks like a strong response. Food-free moments show +52 bpm. The likely reason is that a peak over 3 hours picks up movement, such as walking or standing up, plus sensor noise.
+**What it means.** In everyday wrist data, the heart rate peak after a meal is about +48 bpm, which looks like a strong response. Food-free moments show +52 bpm. The likely reason is that a peak over 3 hours picks up movement, such as walking or standing up, plus sensor noise. The movement check below tests this directly.
 
 Without a placebo comparison, a heart rate meal response can look convincing while measuring something else. Glucose, scored the same way, separates meals from placebos easily, which shows the test itself works.
 
+## Movement check
+
+The wristband also records motion, so I repeated the test in two ways that take movement out of the picture. Both were planned and written down before running them. See "Movement check" in [CLAUDE.md](CLAUDE.md).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="results/movement-dark.png">
+  <img alt="After removing movement, heart rate after real meals and after placebo moments still looks similar, and real meals outscore placebos only a little more often than a coin flip." src="results/movement-light.png">
+</picture>
+
+1. **Movement removed.**
+   - For each person, a simple model predicts heart rate from wrist movement over the current and previous 15 minutes.
+   - It is fitted only on minutes at least 3 hours after eating, so a meal effect can't leak in.
+   - Movement explains a median 35% of minute-to-minute heart rate variation (range 0% to 60%). The lowest is participant 013, whose heart rate has frequent sensor spikes.
+   - The placebo test then runs on what movement doesn't explain:
+     - Heart rate peak: a real meal scores higher 55% of the time (7 of 15 people higher, p = 0.98).
+     - Heart rate average: 57% of the time (11 of 15 people higher, median difference +1.8 bpm, p = 0.07).
+2. **Still periods only** (exploratory).
+   - The plan was to keep meals and placebo moments where at least 80% of minutes were still, both in the 30 min before and from 30 to 120 min after.
+   - **People rarely sit still after eating.** Even with the loosest planned threshold (0.1 g), only 27 of 167 meals (16%) passed, compared with 241 of 644 placebo moments (37%).
+   - That leaves only 7 people with enough data, below the planned minimum of 8, so this comparison is exploratory only:
+     - Heart rate average: a real meal scores higher 48% of the time.
+     - Glucose in the same windows, as a check: 89%.
+
+**What it means.** Removing movement doesn't rescue the peak metric, so the large peak "response" was never about the meal. The calmer average shows a hint: with movement removed, heart rate after real meals was higher for 11 of 15 people, by a median of +1.8 bpm. A small rise after eating is expected physiology, so the hint is plausible.
+
+The evidence is weak, though (p = 0.07), and a single real meal beats a placebo moment only 57% of the time. Any real heart rate effect here is small on average, and far too small next to everyday movement to say anything about one meal.
+
 ## What I'd do next
 
-- **Control for movement.** The dataset includes wrist motion (accelerometer, about 13 GB) that this first pass doesn't use. Repeating the test on still periods only would show whether a smaller, true heart rate response is hiding under everyday activity.
+- **Test the small average effect properly.** Use the same standardized meal on several days, with people seated for 2 hours afterward, against matched no-meal sessions. That is the cleanest way to confirm or rule out the small heart rate rise hinted at above.
 - **Score every meal response against a personal placebo baseline.** Use the same person, the same time of day and no food. It costs little and flags responses that aren't about food.
 - **Run the same test on other signals.** Candidates include skin temperature and EDA, both in this dataset, and sensors placed closer to digestion.
 
@@ -74,7 +101,7 @@ The analysis rules were written down before looking at any heart rate result. Th
 ## Limitations
 
 - **Wrist, not torso.** The E4 derives heart rate from an optical sensor that is noisy during movement.
-- **No movement control yet.** See "What I'd do next."
+- **Approximate movement control.** A linear model of wrist motion can't remove everything that moves heart rate, such as posture, stress or caffeine. Wrist motion also misses movement the wrist doesn't make.
 - **Self-reported food logs.** An unlogged snack would make a placebo moment look more like a meal. That would blur glucose too, and glucose still separates clearly, so the logs look mostly reliable.
 - **Small sample.** 15 people, about a week each.
 - **No repeatability measure.** The dataset's repeated standard breakfast couldn't be used for this. Only 3 of them passed the clean-window rule, from 2 people.
@@ -85,10 +112,11 @@ The analysis rules were written down before looking at any heart rate result. Th
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python src/download.py
+.venv/bin/python src/motion.py
 .venv/bin/python run_all.py
 ```
 
-`run_all.py` writes `results/metrics.json`, `results/per_participant.csv`, both figures and this README. Every result above comes from that run. To run the tests: `.venv/bin/python -m pytest -q`.
+`src/motion.py` streams the 13 GB of raw accelerometer files once, checks each against its published checksum and keeps only a per-minute movement summary (about 7 MB). `run_all.py` writes `results/metrics.json`, `results/per_participant.csv`, all figures and this README. Every result above comes from that run. To run the tests: `.venv/bin/python -m pytest -q`.
 
 ## Data and credit
 

@@ -5,7 +5,8 @@ import pandas as pd
 
 from load import PARTICIPANTS, load_food, load_glucose, load_hr
 from meals import clean_meals, group_meals, placebo_times
-from response import POST_MIN, PRE_MIN, responses
+from movement import STILL_THRESHOLD, adjust_hr, load_movement, still_fraction
+from response import POST_MIN, PRE_MIN, SUSTAINED_FROM_MIN, SUSTAINED_TO_MIN, responses
 
 MIN_MEALS = 3
 CURVE_STEP_MIN = 5
@@ -31,6 +32,17 @@ def participant_windows(pid):
     out = pd.concat([windows, hr_resp, glucose_resp], axis=1)
     # Exploratory, not one of the fixed rules: peak after smoothing out one-minute spikes.
     out["hr_peak_smooth"] = responses(hr.rolling("5min").mean(), windows["time"], step_min=1)["peak"]
+
+    movement = load_movement(pid)
+    adjusted, r2 = adjust_hr(hr, movement, food["time"])
+    adjusted_resp = responses(adjusted, windows["time"], step_min=1)
+    out["hr_adj_peak"] = adjusted_resp["peak"]
+    out["hr_adj_sustained"] = adjusted_resp["sustained"]
+    out["movement_r2"] = r2
+    out["still_before"] = [still_fraction(movement, t, -PRE_MIN, 0, STILL_THRESHOLD) for t in windows["time"]]
+    out["still_after"] = [
+        still_fraction(movement, t, SUSTAINED_FROM_MIN, SUSTAINED_TO_MIN, STILL_THRESHOLD) for t in windows["time"]
+    ]
     out.insert(0, "pid", pid)
     return out
 
@@ -69,7 +81,9 @@ def curves(table):
     """Per participant, the mean event curve for real meals and placebo moments."""
     rows = []
     for pid, windows in table.groupby("pid"):
-        signals = {"hr": load_hr(pid), "glucose": load_glucose(pid)}
+        hr = load_hr(pid)
+        adjusted, _ = adjust_hr(hr, load_movement(pid), load_food(pid)["time"])
+        signals = {"hr": hr, "glucose": load_glucose(pid), "hr_adjusted": adjusted}
         for signal, series in signals.items():
             for kind, group in windows.groupby("kind"):
                 stacked = np.vstack([event_curve(series, t).to_numpy() for t in group["time"]])

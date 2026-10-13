@@ -141,5 +141,69 @@
     }
   },
   "standard_breakfasts_clean": 3,
-  "standard_breakfast_participants": 2
+  "standard_breakfast_participants": 2,
+  "movement": {
+    "model_r2_by_participant": {
+      "001": 0.5277939201342059,
+      "002": 0.3480502840089622,
+      "003": 0.16560807242946374,
+      "004": 0.3118930517648091,
+      "005": 0.4271200932767484,
+      "006": 0.17255629956721408,
+      "007": 0.22412719547358573,
+      "008": 0.5498252811994839,
+      "009": 0.5822513823937012,
+      "010": 0.22301147909669605,
+      "011": 0.6032659995720221,
+      "012": 0.3038701695768201,
+      "013": 0.003195425399011631,
+      "014": 0.4573760771469557,
+      "016": 0.37005746268872386
+    },
+    "still_threshold_g": 0.1,
+    "still_meals": 27,
+    "still_placebos": 241,
+    "results": {
+      "adj_hr_peak": {
+        "participants": 15,
+        "median_meal": 44.8669444687291,
+        "median_placebo": 42.30809553403958,
+        "median_difference": -0.6064720154304553,
+        "participants_positive": 7,
+        "wilcoxon_p": 0.97796630859375,
+        "median_auc": 0.5488215488215489,
+        "mean_auc": 0.520903169200356
+      },
+      "adj_hr_sustained": {
+        "participants": 15,
+        "median_meal": 1.2127192155121003,
+        "median_placebo": -1.3224589621996685,
+        "median_difference": 1.7846410636177112,
+        "participants_positive": 11,
+        "wilcoxon_p": 0.072998046875,
+        "median_auc": 0.5714285714285714,
+        "mean_auc": 0.5817709307640657
+      },
+      "still_hr_sustained": {
+        "participants": 7,
+        "median_meal": -0.4756998168498155,
+        "median_placebo": -1.5741695705601573,
+        "median_difference": 0.5556904931488287,
+        "participants_positive": 4,
+        "wilcoxon_p": 0.9375,
+        "median_auc": 0.48148148148148145,
+        "mean_auc": 0.4400769142564808
+      },
+      "still_glucose": {
+        "participants": 7,
+        "median_meal": 42.73809523809525,
+        "median_placebo": 8.28205128205128,
+        "median_difference": 34.14999999999999,
+        "participants_positive": 6,
+        "wilcoxon_p": 0.046875,
+        "median_auc": 0.8888888888888888,
+        "mean_auc": 0.7920969089390143
+      }
+    }
+  }
 }

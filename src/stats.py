@@ -32,13 +32,15 @@ def per_participant(table, metric, meal_filter=None):
 
 
 def summarize(per):
+    if len(per) == 0:
+        return {"participants": 0}
     return {
         "participants": len(per),
         "median_meal": float(per["meal_mean"].median()),
         "median_placebo": float(per["placebo_mean"].median()),
         "median_difference": float(per["difference"].median()),
         "participants_positive": int((per["difference"] > 0).sum()),
-        "wilcoxon_p": float(wilcoxon(per["difference"]).pvalue),
+        "wilcoxon_p": float(wilcoxon(per["difference"]).pvalue) if len(per) >= 2 else float("nan"),
         "median_auc": float(per["auc"].median()),
         "mean_auc": float(per["auc"].mean()),
     }
