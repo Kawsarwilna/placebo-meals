@@ -1,0 +1,145 @@
+{
+  "participants_total": 16,
+  "participants": 15,
+  "excluded": [
+    "015"
+  ],
+  "excluded_food_glucose_overlap_hours": {
+    "015": 0.0
+  },
+  "lowest_hr_hour": {
+    "001": 4,
+    "002": 3,
+    "003": 4,
+    "004": 5,
+    "005": 4,
+    "006": 4,
+    "007": 4,
+    "008": 3,
+    "009": 4,
+    "010": 3,
+    "011": 4,
+    "012": 3,
+    "013": 7,
+    "014": 4,
+    "016": 5
+  },
+  "meals": 167,
+  "placebos": 644,
+  "glucose_time_to_peak_median_min": 63.483333333333334,
+  "glucose_check_failed": [
+    "012",
+    "016"
+  ],
+  "main": {
+    "glucose": {
+      "participants": 15,
+      "median_meal": 44.15384615384615,
+      "median_placebo": 10.546296296296298,
+      "median_difference": 34.981200897867566,
+      "participants_positive": 13,
+      "wilcoxon_p": 0.00030517578125,
+      "median_auc": 0.8363095238095238,
+      "mean_auc": 0.7923662093185351
+    },
+    "hr_peak": {
+      "participants": 15,
+      "median_meal": 48.07536209117755,
+      "median_placebo": 51.83237283950618,
+      "median_difference": -2.9860432098765557,
+      "participants_positive": 5,
+      "wilcoxon_p": 0.12054443359375,
+      "median_auc": 0.45416666666666666,
+      "mean_auc": 0.4539736399802457
+    },
+    "hr_sustained": {
+      "participants": 15,
+      "median_meal": 1.5143257853257936,
+      "median_placebo": 0.3576304283141417,
+      "median_difference": -0.6253470092158282,
+      "participants_positive": 7,
+      "wilcoxon_p": 0.890380859375,
+      "median_auc": 0.4922145328719723,
+      "mean_auc": 0.5016436522918081
+    }
+  },
+  "sensitivity": {
+    "glucose": {
+      "participants": 13,
+      "median_meal": 44.535714285714285,
+      "median_placebo": 6.357142857142854,
+      "median_difference": 37.94852941176471,
+      "participants_positive": 13,
+      "wilcoxon_p": 0.000244140625,
+      "median_auc": 0.8571428571428571,
+      "mean_auc": 0.8484033184444636
+    },
+    "hr_peak": {
+      "participants": 13,
+      "median_meal": 48.07536209117755,
+      "median_placebo": 51.83237283950618,
+      "median_difference": -2.9860432098765557,
+      "participants_positive": 4,
+      "wilcoxon_p": 0.19091796875,
+      "median_auc": 0.45501730103806226,
+      "mean_auc": 0.4559128080358146
+    },
+    "hr_sustained": {
+      "participants": 13,
+      "median_meal": 0.3467619440083719,
+      "median_placebo": -1.6438323352975492,
+      "median_difference": -0.6253470092158282,
+      "participants_positive": 6,
+      "wilcoxon_p": 0.946044921875,
+      "median_auc": 0.4743083003952569,
+      "mean_auc": 0.4982106244392658
+    }
+  },
+  "exploratory": {
+    "hr_peak_smoothed": {
+      "participants": 15,
+      "median_meal": 31.726961025641025,
+      "median_placebo": 37.02749471139971,
+      "median_difference": 1.556800974757337,
+      "participants_positive": 8,
+      "wilcoxon_p": 0.52447509765625,
+      "median_auc": 0.5138888888888888,
+      "mean_auc": 0.4823882483828738
+    },
+    "big_meal_kcal_cutoff": 616.6666666666664,
+    "big_meals": {
+      "glucose": {
+        "participants": 12,
+        "median_meal": 47.27314814814815,
+        "median_placebo": 8.164488017429194,
+        "median_difference": 40.35773809523809,
+        "participants_positive": 11,
+        "wilcoxon_p": 0.0009765625,
+        "median_auc": 0.9652777777777778,
+        "mean_auc": 0.8897868920295391
+      },
+      "hr_peak": {
+        "participants": 12,
+        "median_meal": 51.44182210648148,
+        "median_placebo": 52.48857364197531,
+        "median_difference": -1.1763763168724175,
+        "participants_positive": 5,
+        "wilcoxon_p": 0.5693359375,
+        "median_auc": 0.47516339869281043,
+        "mean_auc": 0.4544514059832688
+      },
+      "hr_sustained": {
+        "participants": 12,
+        "median_meal": -2.948820705810997,
+        "median_placebo": 0.4990054525066834,
+        "median_difference": -5.281262038016212,
+        "participants_positive": 5,
+        "wilcoxon_p": 0.10986328125,
+        "median_auc": 0.32373366013071897,
+        "mean_auc": 0.39031168949061107
+      }
+    }
+  },
+  "standard_breakfasts_clean": 3,
+  "standard_breakfast_participants": 2
+}

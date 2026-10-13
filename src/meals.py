@@ -6,6 +6,8 @@ import pandas as pd
 MEAL_GAP_MIN = 30
 CLEAN_BEFORE_MIN = 120
 CLEAN_AFTER_MIN = 180
+PLACEBOS_PER_MEAL = 5
+PLACEBO_CLOCK_WINDOW_MIN = 60
 
 
 def group_meals(food, gap_min=MEAL_GAP_MIN):
@@ -49,7 +51,8 @@ def clean_meals(meals, food):
     return meals[keep].reset_index(drop=True)
 
 
-def placebo_times(meal_times, food, start, end, per_meal=5, max_clock_diff_min=60, step_min=5, seed=0):
+def placebo_times(meal_times, food, start, end, per_meal=PLACEBOS_PER_MEAL,
+                  max_clock_diff_min=PLACEBO_CLOCK_WINDOW_MIN, step_min=5, seed=0):
     """Pick placebo moments matched to each meal's time of day.
 
     Candidates are times on a `step_min` grid between `start` and `end` that are
