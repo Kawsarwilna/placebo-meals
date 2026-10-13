@@ -2,9 +2,9 @@
 
 I wrote these rules before running the comparisons they govern. They first lived in CLAUDE.md, and these commits show when each one went in:
 
-- [7dd1bbe](https://github.com/Kawsarwilna/placebo-meals/commit/7dd1bbe): main rules, before any heart rate result.
-- [6c878eb](https://github.com/Kawsarwilna/placebo-meals/commit/6c878eb): movement check, before running it.
-- [a6bd0e2](https://github.com/Kawsarwilna/placebo-meals/commit/a6bd0e2): still-threshold outcome, before any heart rate result from the movement check.
+- [7dd1bbe](https://github.com/kawsarwn/placebo-meals/commit/7dd1bbe): main rules, before any heart rate result.
+- [6c878eb](https://github.com/kawsarwn/placebo-meals/commit/6c878eb): movement check, before running it.
+- [a6bd0e2](https://github.com/kawsarwn/placebo-meals/commit/a6bd0e2): still-threshold outcome, before any heart rate result from the movement check.
 
 I later moved the rules into this file and edited the wording. The rules match those commits.
 

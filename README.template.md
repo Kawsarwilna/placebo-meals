@@ -2,9 +2,7 @@
 
 **A placebo test for heart rate meal responses, run on public wearable data.**
 
-Some wellness wearables report how your body responds to food, and one common measure is the change in heart rate after eating. I tested whether that change comes from the meal.
-
-I scored real meals and *placebo moments* the same way. A placebo moment is a time when the same person ate nothing, at the same time of day as a real meal but on a different day. If heart rate responds to food, real meals should score higher.
+Wearables that report meal responses need a way to check that the response comes from the meal. To check heart rate, I scored real meals and *placebo moments* the same way. A placebo moment is a time when the same person ate nothing, at the same time of day as a real meal but on a different day. If heart rate responds to food, real meals should score higher.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="results/figure-dark.png">
@@ -139,4 +137,4 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 
 The data is under the Open Data Commons Attribution License v1.0 and is not included in this repository. The code is MIT licensed.
 
-Built by Kawsar Nabawi.
+Built by [Kawsar Nabawi](https://kawsarnabawi.com).
