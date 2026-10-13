@@ -25,119 +25,219 @@
     "016": 5
   },
   "meals": 167,
-  "placebos": 644,
+  "placebos": 504,
   "glucose_time_to_peak_median_min": 63.483333333333334,
   "glucose_check_failed": [
-    "012",
-    "016"
+    "012"
   ],
   "main": {
     "glucose": {
       "participants": 15,
       "median_meal": 44.15384615384615,
-      "median_placebo": 10.546296296296298,
-      "median_difference": 34.981200897867566,
-      "participants_positive": 13,
-      "wilcoxon_p": 0.00030517578125,
-      "median_auc": 0.8363095238095238,
-      "mean_auc": 0.7923662093185351
+      "median_placebo": 10.773809523809524,
+      "median_difference": 34.981137909709346,
+      "participants_positive": 14,
+      "wilcoxon_p": 0.00018310546875,
+      "median_auc": 0.8509615384615384,
+      "mean_auc": 0.7948418598235166
     },
     "hr_peak": {
       "participants": 15,
       "median_meal": 48.07536209117755,
-      "median_placebo": 51.83237283950618,
-      "median_difference": -2.9860432098765557,
-      "participants_positive": 5,
-      "wilcoxon_p": 0.12054443359375,
-      "median_auc": 0.45416666666666666,
-      "mean_auc": 0.4539736399802457
+      "median_placebo": 49.70817809523809,
+      "median_difference": -0.4680843979939908,
+      "participants_positive": 6,
+      "wilcoxon_p": 0.22930908203125,
+      "median_auc": 0.4895833333333333,
+      "mean_auc": 0.4597825647691398
     },
     "hr_sustained": {
       "participants": 15,
       "median_meal": 1.5143257853257936,
-      "median_placebo": 0.3576304283141417,
-      "median_difference": -0.6253470092158282,
-      "participants_positive": 7,
-      "wilcoxon_p": 0.890380859375,
-      "median_auc": 0.4922145328719723,
-      "mean_auc": 0.5016436522918081
+      "median_placebo": -0.8392675954037185,
+      "median_difference": -1.3769383772550619,
+      "participants_positive": 6,
+      "wilcoxon_p": 0.803955078125,
+      "median_auc": 0.48619447779111646,
+      "mean_auc": 0.5036870691620792
     }
   },
   "sensitivity": {
     "glucose": {
-      "participants": 13,
-      "median_meal": 44.535714285714285,
-      "median_placebo": 6.357142857142854,
-      "median_difference": 37.94852941176471,
-      "participants_positive": 13,
-      "wilcoxon_p": 0.000244140625,
-      "median_auc": 0.8571428571428571,
-      "mean_auc": 0.8484033184444636
+      "participants": 14,
+      "median_meal": 44.34478021978022,
+      "median_placebo": 8.970238095238095,
+      "median_difference": 36.27702728818801,
+      "participants_positive": 14,
+      "wilcoxon_p": 0.0001220703125,
+      "median_auc": 0.8540521978021978,
+      "mean_auc": 0.8248305640966249
     },
     "hr_peak": {
-      "participants": 13,
-      "median_meal": 48.07536209117755,
-      "median_placebo": 51.83237283950618,
-      "median_difference": -2.9860432098765557,
-      "participants_positive": 4,
-      "wilcoxon_p": 0.19091796875,
-      "median_auc": 0.45501730103806226,
-      "mean_auc": 0.4559128080358146
+      "participants": 14,
+      "median_meal": 47.440378267811,
+      "median_placebo": 47.95128936208445,
+      "median_difference": -0.44338847092682343,
+      "participants_positive": 6,
+      "wilcoxon_p": 0.3909912109375,
+      "median_auc": 0.4900746855345912,
+      "mean_auc": 0.4620119316404049
     },
     "hr_sustained": {
-      "participants": 13,
-      "median_meal": 0.3467619440083719,
-      "median_placebo": -1.6438323352975492,
-      "median_difference": -0.6253470092158282,
+      "participants": 14,
+      "median_meal": 0.9305438646670827,
+      "median_placebo": -0.8400778107794266,
+      "median_difference": -1.1427457673378285,
       "participants_positive": 6,
-      "wilcoxon_p": 0.946044921875,
-      "median_auc": 0.4743083003952569,
-      "mean_auc": 0.4982106244392658
+      "wilcoxon_p": 0.9031982421875,
+      "median_auc": 0.47194339274171204,
+      "mean_auc": 0.5039504312450849
     }
   },
   "exploratory": {
     "hr_peak_smoothed": {
       "participants": 15,
       "median_meal": 31.726961025641025,
-      "median_placebo": 37.02749471139971,
-      "median_difference": 1.556800974757337,
+      "median_placebo": 33.99100556343008,
+      "median_difference": 2.567537142857134,
       "participants_positive": 8,
-      "wilcoxon_p": 0.52447509765625,
-      "median_auc": 0.5138888888888888,
-      "mean_auc": 0.4823882483828738
+      "wilcoxon_p": 0.803955078125,
+      "median_auc": 0.5104166666666666,
+      "mean_auc": 0.4949332325945718
     },
     "big_meal_kcal_cutoff": 616.6666666666664,
     "big_meals": {
       "glucose": {
         "participants": 12,
         "median_meal": 47.27314814814815,
-        "median_placebo": 8.164488017429194,
-        "median_difference": 40.35773809523809,
+        "median_placebo": 8.970238095238095,
+        "median_difference": 40.36512226512227,
         "participants_positive": 11,
         "wilcoxon_p": 0.0009765625,
-        "median_auc": 0.9652777777777778,
-        "mean_auc": 0.8897868920295391
+        "median_auc": 0.9655070754716981,
+        "mean_auc": 0.8877324722360921
       },
       "hr_peak": {
         "participants": 12,
         "median_meal": 51.44182210648148,
-        "median_placebo": 52.48857364197531,
-        "median_difference": -1.1763763168724175,
+        "median_placebo": 51.18510849206349,
+        "median_difference": -2.621758218864464,
         "participants_positive": 5,
-        "wilcoxon_p": 0.5693359375,
-        "median_auc": 0.47516339869281043,
-        "mean_auc": 0.4544514059832688
+        "wilcoxon_p": 0.6220703125,
+        "median_auc": 0.46456916099773243,
+        "mean_auc": 0.4666882124067984
       },
       "hr_sustained": {
         "participants": 12,
         "median_meal": -2.948820705810997,
-        "median_placebo": 0.4990054525066834,
-        "median_difference": -5.281262038016212,
+        "median_placebo": -0.2044003540088002,
+        "median_difference": -4.961208417294925,
         "participants_positive": 5,
-        "wilcoxon_p": 0.10986328125,
-        "median_auc": 0.32373366013071897,
-        "mean_auc": 0.39031168949061107
+        "wilcoxon_p": 0.12939453125,
+        "median_auc": 0.32033222093868996,
+        "mean_auc": 0.389612874597059
       }
+    },
+    "daytime_hours": [
+      11,
+      21
+    ],
+    "daytime": {
+      "glucose": {
+        "participants": 12,
+        "median_meal": 38.12731481481481,
+        "median_placebo": 12.025,
+        "median_difference": 25.608175248419155,
+        "participants_positive": 11,
+        "wilcoxon_p": 0.00146484375,
+        "median_auc": 0.7666666666666666,
+        "mean_auc": 0.7649329979001805
+      },
+      "hr_peak": {
+        "participants": 12,
+        "median_meal": 44.36653649572651,
+        "median_placebo": 48.65493807130168,
+        "median_difference": -1.8568564325526857,
+        "participants_positive": 6,
+        "wilcoxon_p": 0.90966796875,
+        "median_auc": 0.4158355694692904,
+        "mean_auc": 0.5173470380191135
+      },
+      "hr_sustained": {
+        "participants": 12,
+        "median_meal": 0.3908350206891859,
+        "median_placebo": -0.608755150844524,
+        "median_difference": -1.579112024684381,
+        "participants_positive": 5,
+        "wilcoxon_p": 0.9697265625,
+        "median_auc": 0.4610119047619048,
+        "mean_auc": 0.5230194113431359
+      },
+      "adj_hr_sustained": {
+        "participants": 12,
+        "median_meal": 1.5434336267048303,
+        "median_placebo": 0.1491690477185747,
+        "median_difference": 0.28082189964357906,
+        "participants_positive": 6,
+        "wilcoxon_p": 0.90966796875,
+        "median_auc": 0.5397058823529413,
+        "mean_auc": 0.5043254797348361
+      }
+    },
+    "resting_baseline_share": {
+      "meal": 0.08383233532934131,
+      "placebo": 0.18055555555555555
+    },
+    "awake_baselines": {
+      "glucose": {
+        "participants": 15,
+        "median_meal": 39.68181818181819,
+        "median_placebo": 10.589147286821705,
+        "median_difference": 26.893939393939394,
+        "participants_positive": 14,
+        "wilcoxon_p": 0.00018310546875,
+        "median_auc": 0.8090909090909091,
+        "mean_auc": 0.7841170743581457
+      },
+      "hr_peak": {
+        "participants": 15,
+        "median_meal": 46.805394444444445,
+        "median_placebo": 48.42133712121211,
+        "median_difference": -0.9265028929948045,
+        "participants_positive": 6,
+        "wilcoxon_p": 0.33026123046875,
+        "median_auc": 0.4819004524886878,
+        "mean_auc": 0.45949991171038346
+      },
+      "hr_sustained": {
+        "participants": 15,
+        "median_meal": -0.17973950956451054,
+        "median_placebo": 0.1742265234765238,
+        "median_difference": -1.6615098232707823,
+        "participants_positive": 5,
+        "wilcoxon_p": 0.638671875,
+        "median_auc": 0.43673469387755104,
+        "mean_auc": 0.4751623058454787
+      }
+    },
+    "seed_range": {
+      "draws": 10,
+      "glucose": [
+        0.8,
+        0.8541666666666666
+      ],
+      "hr_peak": [
+        0.47297297297297297,
+        0.5192604006163328
+      ],
+      "hr_sustained": [
+        0.47520661157024796,
+        0.5625
+      ],
+      "adj_hr_sustained": [
+        0.5357142857142857,
+        0.6271551724137931
+      ]
     }
   },
   "standard_breakfasts_clean": 3,
@@ -162,47 +262,47 @@
     },
     "still_threshold_g": 0.1,
     "still_meals": 27,
-    "still_placebos": 241,
+    "still_placebos": 193,
     "results": {
       "adj_hr_peak": {
         "participants": 15,
         "median_meal": 44.8669444687291,
-        "median_placebo": 42.30809553403958,
-        "median_difference": -0.6064720154304553,
+        "median_placebo": 42.18663519120623,
+        "median_difference": -0.42051712854969736,
         "participants_positive": 7,
-        "wilcoxon_p": 0.97796630859375,
-        "median_auc": 0.5488215488215489,
-        "mean_auc": 0.520903169200356
+        "wilcoxon_p": 0.890380859375,
+        "median_auc": 0.484375,
+        "mean_auc": 0.5278959335092777
       },
       "adj_hr_sustained": {
         "participants": 15,
         "median_meal": 1.2127192155121003,
-        "median_placebo": -1.3224589621996685,
-        "median_difference": 1.7846410636177112,
+        "median_placebo": -1.417525972899836,
+        "median_difference": 1.8797080743178787,
         "participants_positive": 11,
-        "wilcoxon_p": 0.072998046875,
-        "median_auc": 0.5714285714285714,
-        "mean_auc": 0.5817709307640657
+        "wilcoxon_p": 0.27685546875,
+        "median_auc": 0.609322974472808,
+        "mean_auc": 0.5760795767221109
       },
       "still_hr_sustained": {
         "participants": 7,
         "median_meal": -0.4756998168498155,
-        "median_placebo": -1.5741695705601573,
-        "median_difference": 0.5556904931488287,
+        "median_placebo": -1.1262699799873945,
+        "median_difference": 0.36273111205034425,
         "participants_positive": 4,
         "wilcoxon_p": 0.9375,
-        "median_auc": 0.48148148148148145,
-        "mean_auc": 0.4400769142564808
+        "median_auc": 0.5087719298245614,
+        "mean_auc": 0.4844363656393732
       },
       "still_glucose": {
         "participants": 7,
         "median_meal": 42.73809523809525,
-        "median_placebo": 8.28205128205128,
-        "median_difference": 34.14999999999999,
+        "median_placebo": 8.333333333333332,
+        "median_difference": 35.073809523809516,
         "participants_positive": 6,
         "wilcoxon_p": 0.046875,
-        "median_auc": 0.8888888888888888,
-        "mean_auc": 0.7920969089390143
+        "median_auc": 0.8771929824561403,
+        "mean_auc": 0.8105042826847338
       }
     }
   }

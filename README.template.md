@@ -1,8 +1,8 @@
 # Placebo meals
 
-**A placebo test for heart rate "meal responses," run on public wearable data.**
+**A placebo test for heart rate meal responses, run on public wearable data.**
 
-Wellness wearables describe how your body responds to food, and one common measure is the change in heart rate after eating. I tested whether that change comes from the meal.
+Some wellness wearables report how your body responds to food, and one common measure is the change in heart rate after eating. I tested whether that change comes from the meal.
 
 I scored real meals and *placebo moments* the same way. A placebo moment is a time when the same person ate nothing, at the same time of day as a real meal but on a different day. If heart rate responds to food, real meals should score higher.
 
@@ -60,15 +60,15 @@ The wristband also records motion, so I repeated the test in two ways that take 
      - Heart rate average: a real meal scores higher {{still_hr_sustained_auc}} of the time.
      - Glucose in the same windows, as a check: {{still_glucose_auc}}.
 
-**What it means.** With movement removed, the peak still can't tell meals from placebo moments, so the large peak "response" comes from something other than the meal.
+**What it means.** With movement removed, the peak still can't tell meals from placebo moments, so the large peak comes from something other than the meal.
 
-The average gives a hint of a meal effect. With movement removed, heart rate after real meals was higher for {{adj_hr_sustained_positive}} of {{adj_hr_sustained_participants}} people, by a median of {{adj_hr_sustained_diff}} bpm. Digestion raises heart rate a little, so a small rise fits.
+The average leans toward real meals. With movement removed, heart rate after real meals was higher for {{adj_hr_sustained_positive}} of {{adj_hr_sustained_participants}} people, by a median of {{adj_hr_sustained_diff}} bpm, and a real meal wins {{adj_hr_sustained_auc}} of the time.
 
-The evidence is weak ({{adj_hr_sustained_p}}), and a single real meal beats a placebo moment {{adj_hr_sustained_auc}} of the time. An effect that small, next to everyday movement, can't tell you anything about one meal.
+The evidence is weak ({{adj_hr_sustained_p}}). The lean also shrinks to {{day_adj_hr_sustained_auc}} when you restrict the test to lunch and dinner, so early-morning and late-night timing around sleep may explain it better than food does. Either way, an effect this small can't tell you anything about a single meal.
 
 ## What I'd do next
 
-- **Test the small average effect under controlled conditions.** Give people the same standardized meal on several days, keep them seated for 2 hours afterward and compare against matched no-meal sessions. That would confirm or rule out the small heart rate rise.
+- **Look for a small heart rate effect under controlled conditions.** Give people the same standardized meal on several days, keep them seated for 2 hours afterward and compare against matched no-meal sessions. That would confirm or rule out the small lean seen above.
 - **Score each meal response against a personal placebo baseline.** Use food-free moments from the same person at the same time of day. The comparison costs little and catches responses that have nothing to do with food.
 - **Run the same test on other signals.** Skin temperature and EDA sit in this dataset already, and sensors closer to digestion are the obvious next candidates.
 
@@ -95,8 +95,10 @@ I wrote the analysis rules down before looking at any heart rate result. They ar
 
 ## Robustness
 
-- **Leaving out the {{failed_count}} people whose glucose check failed** ({{failed_list}}): real meals outscore placebos {{sens_glucose_auc}} of the time for glucose, {{sens_hr_peak_auc}} for heart rate peak and {{sens_hr_sustained_auc}} for heart rate average.
+- **Leaving out the {{failed_people}} whose glucose check failed** ({{failed_list}}): real meals outscore placebos {{sens_glucose_auc}} of the time for glucose, {{sens_hr_peak_auc}} for heart rate peak and {{sens_hr_sustained_auc}} for heart rate average.
 - **Exploratory checks**, outside the fixed rules:
+  - Different random draws of placebo moments ({{seed_draws}} draws): real meals outscore placebos {{seed_glucose_min}} to {{seed_glucose_max}} of the time for glucose, {{seed_hr_peak_min}} to {{seed_hr_peak_max}} for heart rate peak, {{seed_hr_sustained_min}} to {{seed_hr_sustained_max}} for heart rate average and {{seed_adj_hr_sustained_min}} to {{seed_adj_hr_sustained_max}} for the movement-removed average.
+  - Lunch and dinner (moments starting between {{day_from}}:00 and {{day_to}}:00, {{day_participants}} people): {{day_glucose_auc}} for glucose, {{day_hr_peak_auc}} for heart rate peak, {{day_hr_sustained_auc}} for heart rate average and {{day_adj_hr_sustained_auc}} for the movement-removed average.
   - Smoothing heart rate over 5 minutes before taking the peak: {{smooth_auc}}.
   - Large meals (the top third, at least {{big_cut}} kcal, {{big_participants}} people): {{big_glucose_auc}} for glucose, {{big_hr_peak_auc}} for heart rate peak and {{big_hr_sustained_auc}} for heart rate average.
 
@@ -105,6 +107,7 @@ I wrote the analysis rules down before looking at any heart rate result. They ar
 - **Wrist sensor.** The E4 measures heart rate optically at the wrist, and the signal gets noisy during movement.
 - **Approximate movement control.** A linear model of wrist motion leaves in other things that change heart rate, like posture, stress or caffeine. It also misses movement that doesn't involve the wrist.
 - **Self-reported food logs.** An unlogged snack would make a placebo moment look more like a meal. Snacks like that would blur the glucose result too, and glucose still separates meals from placebo moments, so the logs hold up well enough for this test.
+- **Sleep around placebo moments.** {{rest_placebo_share}} of placebo moments started while the person lay still, probably asleep, against {{rest_meal_share}} of meals. Leaving those moments out gives {{awake_hr_peak_auc}} for heart rate peak and {{awake_hr_sustained_auc}} for heart rate average.
 - **Small sample.** {{participants}} people, about a week each.
 - **No repeatability measure.** I couldn't use the dataset's repeated standard breakfast for this, because {{sb_count}} of them passed the clean-window rule, from {{sb_participants}} people.
 - **Not medical advice.** This is an analysis of a public research dataset for general wellness interest. It makes no claim about any specific product.

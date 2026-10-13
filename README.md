@@ -1,8 +1,8 @@
 # Placebo meals
 
-**A placebo test for heart rate "meal responses," run on public wearable data.**
+**A placebo test for heart rate meal responses, run on public wearable data.**
 
-Wellness wearables describe how your body responds to food, and one common measure is the change in heart rate after eating. I tested whether that change comes from the meal.
+Some wellness wearables report how your body responds to food, and one common measure is the change in heart rate after eating. I tested whether that change comes from the meal.
 
 I scored real meals and *placebo moments* the same way. A placebo moment is a time when the same person ate nothing, at the same time of day as a real meal but on a different day. If heart rate responds to food, real meals should score higher.
 
@@ -17,9 +17,9 @@ I scored real meals and *placebo moments* the same way. A placebo moment is a ti
 
 | Score | After real meals | After placebo moments | Difference | Real meal scores higher |
 |---|---|---|---|---|
-| Glucose peak: highest in the 3 h after, minus the 30 min before | +44 mg/dL | +11 mg/dL | +35.0 mg/dL | 84% of the time |
-| Heart rate peak: same definition | +48 bpm | +52 bpm | -3.0 bpm | 45% of the time |
-| Heart rate average: 30 to 120 min after, minus the 30 min before | +1.5 bpm | +0.4 bpm | -0.6 bpm | 49% of the time |
+| Glucose peak: highest in the 3 h after, minus the 30 min before | +44 mg/dL | +11 mg/dL | +35.0 mg/dL | 85% of the time |
+| Heart rate peak: same definition | +48 bpm | +50 bpm | -0.5 bpm | 49% of the time |
+| Heart rate average: 30 to 120 min after, minus the 30 min before | +1.5 bpm | -0.8 bpm | -1.4 bpm | 49% of the time |
 
 How to read the table:
 
@@ -29,11 +29,11 @@ How to read the table:
 
 Across people:
 
-- **Glucose** is higher after real meals for 13 of 15 people (p < 0.001, Wilcoxon signed-rank test).
-- **Heart rate peak** is higher for 5 of 15 (p = 0.12).
-- **Heart rate average** is higher for 7 of 15 (p = 0.89).
+- **Glucose** is higher after real meals for 14 of 15 people (p < 0.001, Wilcoxon signed-rank test).
+- **Heart rate peak** is higher for 6 of 15 (p = 0.23).
+- **Heart rate average** is higher for 6 of 15 (p = 0.80).
 
-**What it means.** In everyday wrist data, the heart rate peak after a meal reaches about +48 bpm, which looks like a strong response. Placebo moments reach +52 bpm. A 3-hour peak catches movement, like walking or standing up, along with sensor noise. The movement check below tests that.
+**What it means.** In everyday wrist data, the heart rate peak after a meal reaches about +48 bpm, which looks like a strong response. Placebo moments reach +50 bpm. A 3-hour peak catches movement, like walking or standing up, along with sensor noise. The movement check below tests that.
 
 Without a placebo comparison, you would read that +48 bpm as a meal response. Glucose, scored the same way, separates meals from placebo moments, so the test can detect a real effect.
 
@@ -51,24 +51,24 @@ The wristband also records motion, so I repeated the test in two ways that take 
    - I fit it on minutes at least 3 hours after eating, so a meal effect can't leak in.
    - Movement explains a median 35% of minute-to-minute heart rate variation (range 0% to 60%). The lowest is participant 013, whose heart rate has frequent sensor spikes.
    - I then ran the placebo test on the heart rate that movement doesn't explain:
-     - Heart rate peak: a real meal scores higher 55% of the time (7 of 15 people higher, p = 0.98).
-     - Heart rate average: 57% of the time (11 of 15 people higher, median difference +1.8 bpm, p = 0.07).
+     - Heart rate peak: a real meal scores higher 48% of the time (7 of 15 people higher, p = 0.89).
+     - Heart rate average: 61% of the time (11 of 15 people higher, median difference +1.9 bpm, p = 0.28).
 2. **Still periods** (exploratory).
    - I planned to keep meals and placebo moments where at least 80% of minutes were still, both in the 30 min before and from 30 to 120 min after.
-   - **People kept moving after most meals.** With the loosest planned threshold (0.1 g), 27 of 167 meals (16%) passed, against 241 of 644 placebo moments (37%).
+   - **People kept moving after most meals.** With the loosest planned threshold (0.1 g), 27 of 167 meals (16%) passed, against 193 of 504 placebo moments (38%).
    - That left 7 people with enough data, under the planned minimum of 8, so I report this comparison as exploratory:
-     - Heart rate average: a real meal scores higher 48% of the time.
-     - Glucose in the same windows, as a check: 89%.
+     - Heart rate average: a real meal scores higher 51% of the time.
+     - Glucose in the same windows, as a check: 88%.
 
-**What it means.** With movement removed, the peak still can't tell meals from placebo moments, so the large peak "response" comes from something other than the meal.
+**What it means.** With movement removed, the peak still can't tell meals from placebo moments, so the large peak comes from something other than the meal.
 
-The average gives a hint of a meal effect. With movement removed, heart rate after real meals was higher for 11 of 15 people, by a median of +1.8 bpm. Digestion raises heart rate a little, so a small rise fits.
+The average leans toward real meals. With movement removed, heart rate after real meals was higher for 11 of 15 people, by a median of +1.9 bpm, and a real meal wins 61% of the time.
 
-The evidence is weak (p = 0.07), and a single real meal beats a placebo moment 57% of the time. An effect that small, next to everyday movement, can't tell you anything about one meal.
+The evidence is weak (p = 0.28). The lean also shrinks to 54% when you restrict the test to lunch and dinner, so early-morning and late-night timing around sleep may explain it better than food does. Either way, an effect this small can't tell you anything about a single meal.
 
 ## What I'd do next
 
-- **Test the small average effect under controlled conditions.** Give people the same standardized meal on several days, keep them seated for 2 hours afterward and compare against matched no-meal sessions. That would confirm or rule out the small heart rate rise.
+- **Look for a small heart rate effect under controlled conditions.** Give people the same standardized meal on several days, keep them seated for 2 hours afterward and compare against matched no-meal sessions. That would confirm or rule out the small lean seen above.
 - **Score each meal response against a personal placebo baseline.** Use food-free moments from the same person at the same time of day. The comparison costs little and catches responses that have nothing to do with food.
 - **Run the same test on other signals.** Skin temperature and EDA sit in this dataset already, and sensors closer to digestion are the obvious next candidates.
 
@@ -80,7 +80,7 @@ The evidence is weak (p = 0.07), and a single real meal beats a placebo moment 5
    - Glucose from a Dexcom G6, every 5 minutes.
    - Timestamped food logs.
 2. **Meals.** Food items logged within 30 minutes of each other form one meal. A meal counts as *clean* when the person ate nothing else from 2 hours before to 3 hours after it started. That leaves 167 clean meals.
-3. **Placebo moments.** For each clean meal, I picked 5 moments that pass the same food-free rule, on other days, within 60 minutes of the meal's clock time. That gives 644 placebo moments.
+3. **Placebo moments.** For each clean meal, I picked 5 moments that pass the same food-free rule, on other days, within 60 minutes of the meal's clock time. That gives 504 placebo moments.
 4. **Scores.** I compared each moment with the 30 minutes before it in two ways:
    - Peak: the highest value in the next 3 hours.
    - Average: the mean from 30 to 120 minutes after.
@@ -95,16 +95,19 @@ I wrote the analysis rules down before looking at any heart rate result. They ar
 
 ## Robustness
 
-- **Leaving out the 2 people whose glucose check failed** (012, 016): real meals outscore placebos 86% of the time for glucose, 46% for heart rate peak and 47% for heart rate average.
+- **Leaving out the 1 person whose glucose check failed** (012): real meals outscore placebos 85% of the time for glucose, 49% for heart rate peak and 47% for heart rate average.
 - **Exploratory checks**, outside the fixed rules:
+  - Different random draws of placebo moments (10 draws): real meals outscore placebos 80% to 85% of the time for glucose, 47% to 52% for heart rate peak, 48% to 56% for heart rate average and 54% to 63% for the movement-removed average.
+  - Lunch and dinner (moments starting between 11:00 and 21:00, 12 people): 77% for glucose, 42% for heart rate peak, 46% for heart rate average and 54% for the movement-removed average.
   - Smoothing heart rate over 5 minutes before taking the peak: 51%.
-  - Large meals (the top third, at least 617 kcal, 12 people): 97% for glucose, 48% for heart rate peak and 32% for heart rate average.
+  - Large meals (the top third, at least 617 kcal, 12 people): 97% for glucose, 46% for heart rate peak and 32% for heart rate average.
 
 ## Limitations
 
 - **Wrist sensor.** The E4 measures heart rate optically at the wrist, and the signal gets noisy during movement.
 - **Approximate movement control.** A linear model of wrist motion leaves in other things that change heart rate, like posture, stress or caffeine. It also misses movement that doesn't involve the wrist.
 - **Self-reported food logs.** An unlogged snack would make a placebo moment look more like a meal. Snacks like that would blur the glucose result too, and glucose still separates meals from placebo moments, so the logs hold up well enough for this test.
+- **Sleep around placebo moments.** 18% of placebo moments started while the person lay still, probably asleep, against 8% of meals. Leaving those moments out gives 48% for heart rate peak and 44% for heart rate average.
 - **Small sample.** 15 people, about a week each.
 - **No repeatability measure.** I couldn't use the dataset's repeated standard breakfast for this, because 3 of them passed the clean-window rule, from 2 people.
 - **Not medical advice.** This is an analysis of a public research dataset for general wellness interest. It makes no claim about any specific product.

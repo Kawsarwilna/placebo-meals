@@ -5,12 +5,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 from analyze import all_windows, curves
 from figure import DARK, LIGHT, make_figure, make_movement_figure
-from report import RESULTS, build_metrics, write_outputs
+from report import RESULTS, build_metrics, seed_range, write_outputs
+
+SEED_DRAWS = 10
 
 
 def main():
     table = all_windows()
     metrics, per = build_metrics(table)
+    other_draws = [all_windows(seed) for seed in range(1, SEED_DRAWS)]
+    metrics["exploratory"]["seed_range"] = seed_range([table] + other_draws)
     curve_table = curves(table)
 
     RESULTS.mkdir(exist_ok=True)

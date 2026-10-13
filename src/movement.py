@@ -11,6 +11,7 @@ FEATURES = ["now", "last_5", "last_6_15"]
 # check uses the loosest one and counts as exploratory.
 STILL_THRESHOLD = 0.1  # g
 STILL_SHARE = 0.8
+REST_THRESHOLD = 0.01  # g, near the movement level of sleep
 MIN_STILL_PARTICIPANTS = 8
 
 

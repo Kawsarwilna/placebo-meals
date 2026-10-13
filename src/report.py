@@ -15,6 +15,9 @@ from stats import per_participant, summarize
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS = ROOT / "results"
 METRICS = {"glucose": "glucose_peak", "hr_peak": "hr_peak", "hr_sustained": "hr_sustained"}
+DAYTIME_HOURS = (11, 21)
+SEED_KEYS = {"glucose": "glucose_peak", "hr_peak": "hr_peak", "hr_sustained": "hr_sustained",
+             "adj_hr_sustained": "hr_adj_sustained"}
 
 
 def still_windows(table):
@@ -31,6 +34,17 @@ def movement_per_participant(table):
     }
 
 
+def daytime_windows(table):
+    hour = table["time"].dt.hour
+    return table[(hour >= DAYTIME_HOURS[0]) & (hour < DAYTIME_HOURS[1])]
+
+
+def seed_range(tables):
+    aucs = {key: [summarize(per_participant(t, column))["median_auc"] for t in tables]
+            for key, column in SEED_KEYS.items()}
+    return {"draws": len(tables), **{key: [min(v), max(v)] for key, v in aucs.items()}}
+
+
 def build_metrics(table):
     per = {key: per_participant(table, column) for key, column in METRICS.items()}
     per_movement = movement_per_participant(table)
@@ -44,6 +58,10 @@ def build_metrics(table):
 
     def big(m):
         return m["calories"] >= big_cutoff
+
+    day = daytime_windows(table)
+    resting = table["rest_before"] >= STILL_SHARE
+    awake = table[~resting]
 
     metrics = {
         "participants_total": len(PARTICIPANTS),
@@ -61,6 +79,12 @@ def build_metrics(table):
             "hr_peak_smoothed": summarize(per_participant(table, "hr_peak_smooth")),
             "big_meal_kcal_cutoff": big_cutoff,
             "big_meals": {key: summarize(per_participant(table, column, big)) for key, column in METRICS.items()},
+            "daytime_hours": list(DAYTIME_HOURS),
+            "daytime": {key: summarize(per_participant(day, column)) for key, column in SEED_KEYS.items()},
+            "resting_baseline_share": {
+                kind: float(resting[table["kind"] == kind].mean()) for kind in ("meal", "placebo")
+            },
+            "awake_baselines": {key: summarize(per_participant(awake, column)) for key, column in METRICS.items()},
         },
         "standard_breakfasts_clean": int(len(standard)),
         "standard_breakfast_participants": int(standard["pid"].nunique()),
@@ -97,13 +121,20 @@ def display_values(m):
         "meals": m["meals"],
         "placebos": m["placebos"],
         "glucose_ttp": f"{m['glucose_time_to_peak_median_min']:.0f}",
-        "failed_count": len(m["glucose_check_failed"]),
+        "failed_people": f"{len(m['glucose_check_failed'])} " + ("person" if len(m["glucose_check_failed"]) == 1 else "people"),
         "failed_list": ", ".join(m["glucose_check_failed"]),
         "smooth_auc": pct(explore["hr_peak_smoothed"]["median_auc"]),
         "big_cut": f"{explore['big_meal_kcal_cutoff']:.0f}",
         "big_participants": explore["big_meals"]["glucose"]["participants"],
         "sb_count": m["standard_breakfasts_clean"],
         "sb_participants": m["standard_breakfast_participants"],
+        "day_from": explore["daytime_hours"][0],
+        "day_to": explore["daytime_hours"][1],
+        "day_participants": explore["daytime"]["glucose"]["participants"],
+        "rest_meal_share": pct(explore["resting_baseline_share"]["meal"]),
+        "rest_placebo_share": pct(explore["resting_baseline_share"]["placebo"]),
+        "awake_hr_peak_auc": pct(explore["awake_baselines"]["hr_peak"]["median_auc"]),
+        "awake_hr_sustained_auc": pct(explore["awake_baselines"]["hr_sustained"]["median_auc"]),
         "meal_gap": MEAL_GAP_MIN,
         "clean_before_h": f"{CLEAN_BEFORE_MIN / 60:g}",
         "clean_after_h": f"{CLEAN_AFTER_MIN / 60:g}",
@@ -114,6 +145,12 @@ def display_values(m):
         "sustained_from": SUSTAINED_FROM_MIN,
         "sustained_to": SUSTAINED_TO_MIN,
     }
+    for key, s in explore["daytime"].items():
+        values[f"day_{key}_auc"] = pct(s["median_auc"])
+    seeds = explore["seed_range"]
+    values["seed_draws"] = seeds["draws"]
+    for key in SEED_KEYS:
+        values[f"seed_{key}_min"], values[f"seed_{key}_max"] = (pct(x) for x in seeds[key])
     move = m["movement"]
     r2_by_pid = move["model_r2_by_participant"]
     r2 = list(r2_by_pid.values())

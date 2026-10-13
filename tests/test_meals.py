@@ -38,6 +38,19 @@ def test_meal_with_snack_soon_after_is_not_clean():
     assert list(clean["time"]) == [pd.Timestamp("2020-02-14 13:00")]
 
 
+def test_placebo_moments_are_not_reused_across_meals():
+    food = food_log([
+        ("2020-02-14 12:00", "Lunch", 500, 50),
+        ("2020-02-15 12:00", "Lunch", 500, 50),
+    ])
+    placebos = placebo_times(
+        [pd.Timestamp("2020-02-14 12:00"), pd.Timestamp("2020-02-15 12:00")], food,
+        start=pd.Timestamp("2020-02-14 00:00"), end=pd.Timestamp("2020-02-19 00:00"),
+        per_meal=20,
+    )
+    assert placebos["time"].is_unique
+
+
 def test_placebos_are_food_free_on_other_days_at_similar_clock_time():
     food = food_log([
         ("2020-02-14 12:00", "Lunch", 500, 50),

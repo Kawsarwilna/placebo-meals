@@ -51,11 +51,13 @@ def placebo_times(meal_times, food, start, end, per_meal=PLACEBOS_PER_MEAL,
     grid_minutes = grid.dt.hour * 60 + grid.dt.minute
 
     rows = []
+    used = set()
     for meal_index, t in enumerate(meal_times):
         meal_minutes = t.hour * 60 + t.minute
         diff = (grid_minutes - meal_minutes).abs()
         diff = np.minimum(diff, 1440 - diff)
-        options = grid[(diff <= max_clock_diff_min) & (grid.dt.date != t.date())]
+        options = grid[(diff <= max_clock_diff_min) & (grid.dt.date != t.date()) & ~grid.isin(list(used))]
         chosen = options.sample(n=min(per_meal, len(options)), random_state=rng) if len(options) else options
+        used.update(chosen)
         rows += [{"meal_index": meal_index, "time": c} for c in chosen]
     return pd.DataFrame(rows, columns=["meal_index", "time"])

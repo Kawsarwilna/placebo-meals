@@ -36,7 +36,7 @@ A participant needs at least 3 clean meals with valid heart rate and glucose win
 
 - **Per participant:** mean real-meal response minus mean placebo response. Also the chance that a real meal outscores a placebo moment (AUC).
 - **Across participants:** the median, the count of positive differences and a Wilcoxon signed-rank test.
-- **Sensitivity check:** repeat the summary without participants whose glucose check fails, meaning their real-meal glucose rise minus placebo rise is at or below 0. Those are 012 and 016. I set this rule after the glucose check and before looking at heart rate.
+- **Sensitivity check:** repeat the summary without participants whose glucose check fails, meaning their real-meal glucose rise minus placebo rise is at or below 0. With the first placebo draw, those were 012 and 016. After the correction below, 012 is the one left. I set this rule after the glucose check and before looking at heart rate.
 
 ## Movement check
 
@@ -62,8 +62,21 @@ A participant needs at least 3 clean meals with valid heart rate and glucose win
   - I report the still-period comparison at 0.1 g, labeled exploratory.
   - The movement-removed comparison uses every window and is the main movement result.
 
+## Correction
+
+- **Repeated placebo moments.**
+  - The first version drew placebo moments for each meal independently, so 30% of placebo windows reused a moment already drawn for another meal.
+  - The sampler now uses each moment once, which gives 504 distinct placebo moments instead of 644 windows.
+  - The conclusions held. A real meal outscored a placebo moment 85% of the time for glucose (84% before), 49% for heart rate peak (45%) and 49% for heart rate average (49%).
+  - The movement-removed average weakened from p = 0.07 to p = 0.28.
+
 ## Decisions made after seeing results
 
 - **AUC across people:** I report the median to match the other medians. The mean leads to the same conclusions, and `results/metrics.json` has both.
-- **Exploratory checks:** the 5-minute smoothed peak and the large-meal check came after the main results. The README labels both exploratory.
+- **Exploratory checks:** these came after the main results, and the README labels them exploratory:
+  - the 5-minute smoothed peak
+  - the large-meal check
+  - 10 random draws of placebo moments
+  - lunch and dinner (11:00 to 21:00)
+  - leaving out moments that started while the person lay still (movement below 0.01 g for 80% of the baseline)
 - **Dropped question:** I had planned to ask how many repeats of the same meal a stable personal response needs. I dropped it because 3 standard breakfasts passed the clean-window rule, too few to work with.

@@ -3,7 +3,7 @@ import pandas as pd
 
 from load import PARTICIPANTS, load_food, load_glucose, load_hr
 from meals import clean_meals, group_meals, placebo_times
-from movement import STILL_THRESHOLD, adjust_hr, load_movement, still_fraction
+from movement import REST_THRESHOLD, STILL_THRESHOLD, adjust_hr, load_movement, still_fraction
 from response import POST_MIN, PRE_MIN, SUSTAINED_FROM_MIN, SUSTAINED_TO_MIN, responses
 
 MIN_MEALS = 3
@@ -11,19 +11,20 @@ CURVE_STEP_MIN = 5
 CURVE_MINUTES = np.arange(-PRE_MIN, POST_MIN, CURVE_STEP_MIN)
 
 
-def participant_windows(pid):
+def participant_windows(pid, seed=0):
     hr, glucose, food = load_hr(pid), load_glucose(pid), load_food(pid)
     meals = clean_meals(group_meals(food), food)
 
     # outside the food log period we can't tell whether the person ate
     start = max(hr.index.min(), glucose.index.min(), food["time"].min())
     end = min(hr.index.max(), glucose.index.max(), food["time"].max())
-    placebos = placebo_times(meals["time"], food, start, end)
+    placebos = placebo_times(meals["time"], food, start, end, seed=seed)
 
     real = meals[["time", "calories", "carbs", "standard_breakfast"]].assign(
         kind="meal", meal_index=range(len(meals))
     )
     windows = pd.concat([real, placebos.assign(kind="placebo")], ignore_index=True)
+    windows["time"] = pd.to_datetime(windows["time"])
     hr_resp = responses(hr, windows["time"], step_min=1).add_prefix("hr_")
     glucose_resp = responses(glucose, windows["time"], step_min=5).add_prefix("glucose_")
     out = pd.concat([windows, hr_resp, glucose_resp], axis=1)
@@ -37,6 +38,7 @@ def participant_windows(pid):
     out["hr_adj_sustained"] = adjusted_resp["sustained"]
     out["movement_r2"] = r2
     out["still_before"] = [still_fraction(movement, t, -PRE_MIN, 0, STILL_THRESHOLD) for t in windows["time"]]
+    out["rest_before"] = [still_fraction(movement, t, -PRE_MIN, 0, REST_THRESHOLD) for t in windows["time"]]
     out["still_after"] = [
         still_fraction(movement, t, SUSTAINED_FROM_MIN, SUSTAINED_TO_MIN, STILL_THRESHOLD) for t in windows["time"]
     ]
@@ -44,8 +46,8 @@ def participant_windows(pid):
     return out
 
 
-def all_windows():
-    table = pd.concat([participant_windows(pid) for pid in PARTICIPANTS], ignore_index=True)
+def all_windows(seed=0):
+    table = pd.concat([participant_windows(pid, seed) for pid in PARTICIPANTS], ignore_index=True)
     table = table.dropna(subset=["hr_peak", "glucose_peak"]).reset_index(drop=True)
     meal_counts = table[table["kind"] == "meal"].groupby("pid").size()
     included = meal_counts[meal_counts >= MIN_MEALS].index
