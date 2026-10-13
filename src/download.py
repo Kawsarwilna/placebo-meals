@@ -7,10 +7,15 @@ Usage:
 
 import hashlib
 import sys
+import urllib.error
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 BASE_URL = "https://physionet.org/files/big-ideas-glycemic-wearable/1.1.3/"
+# PhysioNet's AWS mirror is much faster but only has v1.1.2. Files from it are
+# kept only if they match the v1.1.3 checksums; otherwise we fall back to BASE_URL.
+MIRROR_URL = "https://physionet-open.s3.amazonaws.com/big-ideas-glycemic-wearable/1.1.2/"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 PARTICIPANTS = [f"{i:03d}" for i in range(1, 17)]
 CORE = ["HR", "Dexcom", "Food_Log"]
@@ -38,24 +43,30 @@ def sha256(path):
 def fetch(name, expected):
     dest = DATA_DIR / name
     if dest.exists() and sha256(dest) == expected:
-        print(f"ok   {name}")
+        print(f"ok   {name}", flush=True)
         return
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_name(dest.name + ".part")
-    urllib.request.urlretrieve(BASE_URL + name, tmp)
-    if sha256(tmp) != expected:
-        tmp.unlink()
-        raise RuntimeError(f"checksum mismatch: {name}")
-    tmp.rename(dest)
-    print(f"got  {name}")
+    for url in (MIRROR_URL, BASE_URL):
+        try:
+            urllib.request.urlretrieve(url + name, tmp)
+        except urllib.error.HTTPError:
+            continue
+        if sha256(tmp) == expected:
+            tmp.rename(dest)
+            print(f"got  {name}", flush=True)
+            return
+    tmp.unlink(missing_ok=True)
+    raise RuntimeError(f"no copy matching the v1.1.3 checksum: {name}")
 
 
 def main():
     kinds = CORE + (EXTRA if "--extra" in sys.argv else [])
     sums = load_checksums()
     names = ["Demographics.csv"] + [f"{p}/{k}_{p}.csv" for p in PARTICIPANTS for k in kinds]
-    for name in names:
-        fetch(name, sums[name])
+    # PhysioNet throttles each connection, so download several files at once.
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        list(pool.map(lambda name: fetch(name, sums[name]), names))
 
 
 if __name__ == "__main__":
