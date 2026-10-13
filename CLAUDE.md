@@ -71,3 +71,17 @@ Update this list as decisions are made:
 - **Main summary:** per participant, mean real-meal response minus mean placebo response. Across participants: median, how many are positive, and a Wilcoxon signed-rank test. Also the per-participant chance that a real meal outscores a placebo (AUC).
 - **Sensitivity check:** repeat the main summary without participants whose glucose check fails, meaning real-meal glucose rise minus placebo rise is at or below 0. That is 012 and 016. This was decided after the glucose check and before looking at heart rate.
 - These rules were fixed before looking at any heart rate results.
+
+### Movement check (added later, written before running it)
+
+- **Movement per minute:** the standard deviation of wrist acceleration magnitude (g) within the minute, from the 32 Hz accelerometer. Only minutes with at least 2/3 of their samples count. Raw ACC files are streamed and summarized, never stored (`src/motion.py`).
+- **Movement-removed heart rate:**
+  - Fit a linear model per person: per-minute heart rate on three inputs, which are movement now, mean movement over the previous 5 minutes and mean movement over the 10 minutes before that.
+  - Fit it only on minutes at least 3 h after any logged food, so a meal effect can't leak into it.
+  - The adjusted heart rate is the residual. Run the same peak and average scores and the same placebo comparison on it.
+- **Still periods:**
+  - A minute is still when movement is below the threshold `STILL_THRESHOLD` in `src/movement.py`.
+  - A window counts as still when at least 80% of its minutes are still, both in the 30 min before and from 30 to 120 min after. The eating period itself (0 to 30 min) isn't required to be still, because eating moves the wrist.
+  - Scores: the raw heart rate average (30 to 120 min) as the outcome, with the glucose peak in the same windows as a check.
+- **Inclusion:** the usual rule, at least 2 meals and 2 placebos per person for each comparison.
+- **Threshold choice:** the threshold is picked from the movement data alone, before any heart rate comparison is run. Candidates are 0.01, 0.02, 0.03, 0.05, 0.075 and 0.1 g. Pick the lowest one that leaves at least 8 participants with at least 2 still meals and 2 still placebo moments. Only window counts are looked at to make this choice, never heart rate or glucose values.
