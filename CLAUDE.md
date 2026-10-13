@@ -62,3 +62,12 @@ Update this list as decisions are made:
 - **Meal response (peak):** max HR from 0 to 180 min after the meal, minus mean HR in the 30 min before.
 - **Meal response (sustained):** mean HR from 30 to 120 min after the meal, minus mean HR in the 30 min before.
 - **Positive control:** the glucose rise after real meals vs placebo moments. It confirms that meal times and sensor clocks line up.
+- **Clocks:** wristband, Dexcom and food log are all local time. Every participant's heart rate is lowest between 3 and 7 am.
+- **Meals:** food items logged within 30 min of each other form one meal.
+- **Clean window:** nothing else eaten from 2 h before to 3 h after the moment. Same rule for meals and placebos.
+- **Placebos:** 5 per clean meal, from a 5-min grid of food-free times, on a different date, within 60 min of the meal's clock time. Fixed seed.
+- **Coverage:** each window needs at least 2/3 of its expected samples (heart rate is per minute, glucose every 5 min).
+- **Inclusion:** a participant needs at least 3 clean meals with valid heart rate and glucose windows. This drops 015, whose food log and glucose don't overlap.
+- **Main summary:** per participant, mean real-meal response minus mean placebo response. Across participants: median, how many are positive, and a Wilcoxon signed-rank test. Also the per-participant chance that a real meal outscores a placebo (AUC).
+- **Sensitivity check:** repeat the main summary without participants whose glucose check fails, meaning real-meal glucose rise minus placebo rise is at or below 0. That is 012 and 016. This was decided after the glucose check and before looking at heart rate.
+- These rules were fixed before looking at any heart rate results.
