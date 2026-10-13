@@ -1,5 +1,3 @@
-"""Score how a signal changes after a moment in time (a meal or a placebo moment)."""
-
 import numpy as np
 import pandas as pd
 
@@ -11,12 +9,6 @@ MIN_COVERAGE = 2 / 3
 
 
 def window_response(series, t, step_min):
-    """Change in `series` after time t, relative to the 30 minutes before.
-
-    peak:      highest value in the 3 h after, minus the baseline
-    sustained: mean from 30 to 120 min after, minus the baseline
-    Returns NaNs when either window has less than 2/3 of its expected samples.
-    """
     minute = pd.Timedelta(minutes=1)
     pre = series[t - PRE_MIN * minute: t - pd.Timedelta(seconds=1)]
     post = series[t: t + POST_MIN * minute]

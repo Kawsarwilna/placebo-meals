@@ -1,5 +1,3 @@
-"""Turn the analysis into results/metrics.json, a per-participant table and README.md."""
-
 import json
 import re
 from pathlib import Path

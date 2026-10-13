@@ -1,5 +1,3 @@
-"""Build the table of real-meal and placebo windows with their heart rate and glucose responses."""
-
 import numpy as np
 import pandas as pd
 
@@ -17,8 +15,7 @@ def participant_windows(pid):
     hr, glucose, food = load_hr(pid), load_glucose(pid), load_food(pid)
     meals = clean_meals(group_meals(food), food)
 
-    # Placebos must fall where all three records overlap; outside the food log
-    # period we can't know whether the person ate.
+    # outside the food log period we can't tell whether the person ate
     start = max(hr.index.min(), glucose.index.min(), food["time"].min())
     end = min(hr.index.max(), glucose.index.max(), food["time"].max())
     placebos = placebo_times(meals["time"], food, start, end)
@@ -30,7 +27,7 @@ def participant_windows(pid):
     hr_resp = responses(hr, windows["time"], step_min=1).add_prefix("hr_")
     glucose_resp = responses(glucose, windows["time"], step_min=5).add_prefix("glucose_")
     out = pd.concat([windows, hr_resp, glucose_resp], axis=1)
-    # Exploratory, not one of the fixed rules: peak after smoothing out one-minute spikes.
+    # exploratory: peak after 5-minute smoothing
     out["hr_peak_smooth"] = responses(hr.rolling("5min").mean(), windows["time"], step_min=1)["peak"]
 
     movement = load_movement(pid)
@@ -56,7 +53,6 @@ def all_windows():
 
 
 def lowest_hr_hour(pid):
-    """Clock hour with the lowest mean heart rate; overnight if device clocks are local time."""
     hr = load_hr(pid)
     return int(hr.groupby(hr.index.hour).mean().idxmin())
 
@@ -69,7 +65,6 @@ def food_glucose_overlap_hours(pid):
 
 
 def event_curve(series, t):
-    """Change from the 30-min baseline, in 5-min bins from -30 to +180 min around t."""
     window = series[t - pd.Timedelta(minutes=PRE_MIN): t + pd.Timedelta(minutes=POST_MIN) - pd.Timedelta(seconds=1)]
     relative = (window.index - t) / pd.Timedelta(minutes=1)
     bins = np.floor(relative / CURVE_STEP_MIN) * CURVE_STEP_MIN
@@ -78,7 +73,6 @@ def event_curve(series, t):
 
 
 def curves(table):
-    """Per participant, the mean event curve for real meals and placebo moments."""
     rows = []
     for pid, windows in table.groupby("pid"):
         hr = load_hr(pid)

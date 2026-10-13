@@ -1,9 +1,7 @@
-"""Read one participant's heart rate, glucose and food log.
+"""Readers for heart rate, glucose and food logs.
 
-The raw files are not uniform across participants:
-- HR timestamps are "2/13/20 15:29" (minute resolution) for some people and
-  ISO "2020-02-21 09:19:16" for others.
-- Food_Log_003 has no header row and only 11 columns (no fiber or fat).
+HR timestamps are "2/13/20 15:29" for some participants and ISO for others.
+Food_Log_003 has no header row and 11 columns instead of 14.
 """
 
 from pathlib import Path
@@ -22,7 +20,6 @@ def parse_times(values):
 
 
 def load_hr(pid, data_dir=DATA_DIR):
-    """Per-minute mean heart rate (bpm), indexed by minute."""
     df = pd.read_csv(data_dir / pid / f"HR_{pid}.csv")
     df.columns = ["time", "hr"]
     minute = parse_times(df["time"]).dt.floor("min")
@@ -30,7 +27,6 @@ def load_hr(pid, data_dir=DATA_DIR):
 
 
 def load_glucose(pid, data_dir=DATA_DIR):
-    """Dexcom glucose readings (mg/dL), indexed by time."""
     df = pd.read_csv(data_dir / pid / f"Dexcom_{pid}.csv")
     df = df[df["Event Type"] == "EGV"]
     time = parse_times(df["Timestamp (YYYY-MM-DDThh:mm:ss)"])
@@ -40,7 +36,6 @@ def load_glucose(pid, data_dir=DATA_DIR):
 
 
 def load_food(pid, data_dir=DATA_DIR):
-    """One row per logged food item: time, food, calories, carbs."""
     raw = pd.read_csv(data_dir / pid / f"Food_Log_{pid}.csv", header=None, dtype=str)
     if raw.iloc[0, 0] == "date":
         raw = raw.iloc[1:]

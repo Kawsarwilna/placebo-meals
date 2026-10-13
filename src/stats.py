@@ -1,11 +1,9 @@
-"""Compare real meals with placebo moments, within each participant first."""
-
 import pandas as pd
 from scipy.stats import mannwhitneyu, wilcoxon
 
 
 def auc(meal_values, placebo_values):
-    """Chance that a random real meal scores higher than a random placebo moment (ties count half)."""
+    # chance a random meal outscores a random placebo, ties counting half
     return mannwhitneyu(meal_values, placebo_values).statistic / (len(meal_values) * len(placebo_values))
 
 

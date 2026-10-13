@@ -1,5 +1,3 @@
-"""The README figure, rendered once for light mode and once for dark mode."""
-
 import matplotlib
 
 matplotlib.use("Agg")
@@ -101,8 +99,7 @@ def make_figure(curves, per_metric, subtitle, theme, path):
     time_course(axes[1], curves, "hr", "Heart rate change (bpm)", theme)
     auc_strip(axes[2], per_metric, theme)
 
-    fig.text(0.07, 1.04, "Glucose sees the meal. Heart rate doesn't.", color=theme["ink"], fontsize=16,
-             fontweight="bold")
+    fig.text(0.07, 1.04, "Real meals vs placebo moments", color=theme["ink"], fontsize=16, fontweight="bold")
     fig.text(0.07, 0.975, subtitle, color=theme["secondary"], fontsize=10.5)
     handles, labels = axes[0].get_legend_handles_labels()
     legend = fig.legend(handles[::-1], labels[::-1], loc="upper right", bbox_to_anchor=(0.91, 1.07), ncol=2,

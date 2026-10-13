@@ -1,8 +1,7 @@
-"""Download the BIG IDEAs files this project needs from PhysioNet into data/.
+"""Fetch the BIG IDEAs files into data/.
 
-Usage:
     python src/download.py           # HR, Dexcom, Food_Log (~250 MB)
-    python src/download.py --extra   # also TEMP and EDA (~2.5 GB more)
+    python src/download.py --extra   # adds TEMP and EDA (~2.5 GB)
 """
 
 import hashlib
@@ -13,8 +12,8 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 BASE_URL = "https://physionet.org/files/big-ideas-glycemic-wearable/1.1.3/"
-# PhysioNet's AWS mirror is much faster but only has v1.1.2. Files from it are
-# kept only if they match the v1.1.3 checksums; otherwise we fall back to BASE_URL.
+# The AWS mirror is much faster but only hosts v1.1.2; a file from it is kept
+# only if it matches the v1.1.3 checksum.
 MIRROR_URL = "https://physionet-open.s3.amazonaws.com/big-ideas-glycemic-wearable/1.1.2/"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 PARTICIPANTS = [f"{i:03d}" for i in range(1, 17)]
@@ -64,7 +63,7 @@ def main():
     kinds = CORE + (EXTRA if "--extra" in sys.argv else [])
     sums = load_checksums()
     names = ["Demographics.csv"] + [f"{p}/{k}_{p}.csv" for p in PARTICIPANTS for k in kinds]
-    # PhysioNet throttles each connection, so download several files at once.
+    # PhysioNet throttles each connection
     with ThreadPoolExecutor(max_workers=8) as pool:
         list(pool.map(lambda name: fetch(name, sums[name]), names))
 

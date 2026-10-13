@@ -1,10 +1,9 @@
-"""Stream the wrist accelerometer files and keep only a per-minute movement summary.
+"""Stream the accelerometer files and keep a per-minute movement summary.
 
-The raw ACC files are about 13 GB in total, so they are never stored. Each file is
-streamed once, checked against the published v1.1.3 checksum and reduced to one row
-per minute in data/motion/. A summary is only written once its checksum matches.
+The raw ACC files total about 13 GB, so they never touch the disk. Each file is
+read once, checked against its v1.1.3 checksum and reduced to one row per minute
+in data/motion/.
 
-Usage:
     python src/motion.py
 """
 
@@ -29,8 +28,6 @@ CHUNK_ROWS = 1_000_000
 
 
 class HashingStream(io.RawIOBase):
-    """Passes bytes through while computing their SHA-256."""
-
     def __init__(self, raw):
         self.raw = raw
         self.sha = hashlib.sha256()
@@ -46,7 +43,6 @@ class HashingStream(io.RawIOBase):
 
 
 def minute_sums(chunk):
-    """Per-minute sample count and sums of acceleration magnitude (g) and its square."""
     magnitude = np.sqrt(chunk["x"] ** 2 + chunk["y"] ** 2 + chunk["z"] ** 2) / E4_UNITS_PER_G
     sums = pd.DataFrame({
         "minute": chunk["time"].str.slice(0, 16),
@@ -58,7 +54,6 @@ def minute_sums(chunk):
 
 
 def summarize_stream(stream):
-    """Read an ACC csv from a binary stream; return one row per minute with the movement SD."""
     reader = pd.read_csv(
         stream, header=0, names=["time", "x", "y", "z"], chunksize=CHUNK_ROWS,
         dtype={"time": str, "x": "float32", "y": "float32", "z": "float32"},

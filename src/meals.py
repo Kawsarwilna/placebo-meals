@@ -1,5 +1,3 @@
-"""Turn food log items into meals and pick meals and placebo moments with clean windows."""
-
 import numpy as np
 import pandas as pd
 
@@ -11,7 +9,6 @@ PLACEBO_CLOCK_WINDOW_MIN = 60
 
 
 def group_meals(food, gap_min=MEAL_GAP_MIN):
-    """Items logged within `gap_min` minutes of the previous item form one meal."""
     food = food.sort_values("time")
     meal_id = (food["time"].diff() > pd.Timedelta(minutes=gap_min)).cumsum()
     meals = food.groupby(meal_id).agg(
@@ -28,11 +25,7 @@ def group_meals(food, gap_min=MEAL_GAP_MIN):
 
 
 def food_free(times, eating_times, before=CLEAN_BEFORE_MIN, after=CLEAN_AFTER_MIN, ignore=None):
-    """For each time t, True if nothing was eaten in [t - before, t + after].
-
-    `ignore` is an optional (start, end) pair per time whose own items don't count,
-    so a meal can be checked against everything except itself.
-    """
+    # ignore: one (start, end) pair per time, so a meal isn't blocked by its own items
     eating = np.sort(eating_times.to_numpy())
     result = []
     for i, t in enumerate(times):
@@ -46,19 +39,12 @@ def food_free(times, eating_times, before=CLEAN_BEFORE_MIN, after=CLEAN_AFTER_MI
 
 
 def clean_meals(meals, food):
-    """Meals with nothing else eaten in the 2 h before or the 3 h after they start."""
     keep = food_free(meals["time"], food["time"], ignore=list(zip(meals["time"], meals["end"])))
     return meals[keep].reset_index(drop=True)
 
 
 def placebo_times(meal_times, food, start, end, per_meal=PLACEBOS_PER_MEAL,
                   max_clock_diff_min=PLACEBO_CLOCK_WINDOW_MIN, step_min=5, seed=0):
-    """Pick placebo moments matched to each meal's time of day.
-
-    Candidates are times on a `step_min` grid between `start` and `end` that are
-    food free (same rule as clean meals), on a different date than the meal, and
-    within `max_clock_diff_min` of the meal's clock time.
-    """
     rng = np.random.default_rng(seed)
     grid = pd.Series(pd.date_range(start.ceil(f"{step_min}min"), end, freq=f"{step_min}min"))
     grid = grid[food_free(grid, food["time"])]

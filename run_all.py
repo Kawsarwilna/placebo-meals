@@ -1,5 +1,3 @@
-"""Run the whole analysis: windows, statistics, figures, metrics.json and README.md."""
-
 import sys
 from pathlib import Path
 
@@ -25,7 +23,7 @@ def main():
 
     move = metrics["movement"]
     movement_subtitle = (
-        f"Movement model fitted per person on food-free minutes. Still periods: {move['still_meals']} meals, "
+        f"One movement model per person, fit on food-free minutes. Still periods: {move['still_meals']} meals, "
         f"{move['still_placebos']} placebo moments. Lines: mean across people. Bands: ±1 standard error."
     )
     make_movement_figure(curve_table, per, movement_subtitle, LIGHT, RESULTS / "movement-light.png")
